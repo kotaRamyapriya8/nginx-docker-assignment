@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  service_1:
+    build:
+      context: ./service_1
+    ports:
+      - "5001:5000"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  service_2:
+    build:
+      context: ./service_2
+    ports:
+      - "5002:8000"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - service_1
+      - service_2
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
