@@ -1,43 +1,71 @@
-#  Nginx Reverse Proxy with Docker Compose
+# Nginx Reverse Proxy with Docker Compose
 
-This project demonstrates a simple microservices setup using Docker Compose, Nginx as a reverse proxy, and two backend services — one built with Flask (Python) and another with FastAPI (Python).
+This project demonstrates routing multiple services using Nginx as a reverse proxy with Docker Compose.
 
----
+##  Stack
+- Nginx
+- Python Flask (Service 1)
+- Python FastAPI (Service 2)
+- Docker & Docker Compose
+- Bridge Networking
 
 ##  Project Structure
+
 nginx-docker-assignment/
 ├── docker-compose.yml
 ├── nginx/
-│   ├── nginx.conf
-│   └── Dockerfile
+│ ├── nginx.conf
+│ └── Dockerfile
 ├── service_1/
-│   ├── app.py
-│   ├── Dockerfile
-│   └── requirements.txt
+│ ├── app.py (Flask app)
+│ ├── requirements.txt
+│ └── Dockerfile
 ├── service_2/
-│   ├── app.py
-│   ├── Dockerfile
-│   └── requirements.txt
+│ ├── app.py (FastAPI app)
+│ ├── requirements.txt
+│ └── Dockerfile
 └── README.md
 
 
- 1. Clone the Repository
+##  How It Works 
 
-git clone https://github.com/YourGitHubUsername/nginx-docker-assignment.git
-cd nginx-docker-assignmen
+- Access Service 1 via: `http://<EC2_PUBLIC_IP>/service1`
+- Access Service 2 via: `http://<EC2_PUBLIC_IP>/service2`
 
-1. Run the Application
+## Health Check 
+
+Both services are exposed behind Nginx. Health checks can be validated using curl:
+
+```bash
+curl http://35.180.58.24  /service1  
+curl http://35.180.58.24  /service2
+ How to Run
+SSH into EC2 and clone repo:
+
+bash
+
+git clone https://github.com/kotaRamyapriya8/nginx-docker-assignment.git
+cd nginx-docker-assignment
+Start containers:
+
+bash
 
 docker compose up --build
-This will start all services using bridge networking and route requests via Nginx.
+Visit:
 
+http://<EC2_PUBLIC_IP>/service1
 
-3.Features
+http://<EC2_PUBLIC_IP>/service2
 
-Docker Compose setup for multi-container system
+ Ports
+Make sure the EC2 Security Group allows:
 
-Nginx reverse proxy with path-based routing
+HTTP (80)
 
-Clean, modular Dockerfiles
+SSH (22)
 
-Fast startup and automatic dependency installa/tion
+Custom TCP: 5001, 5002 (optional for direct testing)
+
+ Author
+Kota Ramyapriya
+DevOps Intern | Azure + Docker + Linux
